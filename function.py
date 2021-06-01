@@ -10,7 +10,7 @@ import cv2
 # return a pic with a path
 #------------------#
 
-def trackSingle():
+def trackSingle(type):
     tracker_types = ['BOOSTING', 'MIL', 'KCF', 'TLD', 'MEDIANFLOW', 'GOTURN']
     tracker_type = tracker_types[2]
 
@@ -86,8 +86,13 @@ def trackSingle():
                 crop = frame[int(bbox[1]):int(bbox[1]+bbox[3]),
                              int(bbox[0]):int(bbox[0]+bbox[2])]
                 #cv2.imwrite('./pic_tmp/'+'crop'+str(i)+'.jpg', crop)
-                PicPath = './pic_tmp/' + 'crop' + str(i) + '.jpg'
-                cv2.imwrite(PicPath, crop)
+                #PicPath = './pic_tmp/' + 'crop' + str(i) + '.jpg'
+                #cv2.imwrite(PicPath, crop)
+                if type == 'light':
+                    result = detection(crop)
+                elif type == 'nums':
+                    result = pred_nums(crop)
+
         else:
             # Tracking failure
             cv2.putText(frame, "Tracking failure detected", (100, 80),
